@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# lock the screen with a sexy Niece Waldhorf in red lingerie.
+#
+i3lock -i ~/Pictures/WallpapersLaydeez/niece.png

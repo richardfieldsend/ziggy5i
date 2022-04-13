@@ -1,0 +1,4 @@
+#!/bin/bash
+#
+# lock the screen with a Tux wallpaper
+i3lock -i ~/Pictures/Wallpapers/tux.png

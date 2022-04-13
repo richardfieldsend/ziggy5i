@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# reset keyboard layout to my Dvorak preferred version, and make it
+# available from Rofi.
+#
+setxkbmap -layout gb -variant dvorakukp -option "ctrl:swapcaps"

@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# lock the screen with a nice pretty girl wallpaper (girl in glasses)
+#
+i3lock -i ~/Pictures/WallpapersLaydeez/glasses.png
+
