@@ -275,3 +275,15 @@ highlighted.
   ;; Highlight the current line.
   (global-hl-line-mode 1)
 #+end_src
+
+*** Global Line Numbering.
+
+Line numbering is useful as you can go directly to a line using M-g g
+or M-g M-g.
+
+#+caption[lineNumbering]:Display line numbers on the left edge of screen.
+#+begin_src emacs-lisp
+  ;; Activate line numbering
+  (global-linum-mode t)
+#+end_src
+
