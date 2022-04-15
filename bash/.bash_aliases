@@ -57,3 +57,7 @@ alias dvorak='setxkbmap -layout gb -variant dvorakukp -option 'ctrl:swapcaps''
 # spend 5 minutes showing random background images from the folder the alias is run in. After the script has run for 300 times
 # then run one last time with the Linux wallpapers folder.
 alias fehrandom='for a in {1..300} ; do feh -D 1 -d -z -r --bg-fill * ; done && feh -d -z -r --bg-fill ~/Pictures/Wallpapers/*'
+
+# aliases to run the various stow functions to refresh the stowed content
+alias stowemacs='stow -v -R -d ~/.dotfiles emacs29'
+
