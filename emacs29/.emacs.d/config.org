@@ -1,0 +1,26 @@
+* Configuration File Using Literate Programming Technique.
+I'll start with a very simple file and then add functions in bit by bit. 
+
+#+begin_src emacs-lisp
+  (eval-and-compile)
+  (require 'package)
+  (add-to-list 'package-archives
+	       '("melpa" . "https://melpa.org/packages/"))
+  (package-initialize)
+  (package-refresh-contents)
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+
+** Built-in functions.
+
+#+begin_src emacs-lisp
+  (menu-bar-mode 0)			; Turn off menu bar
+  (tool-bar-mode 0)			; Turn off the icons
+  (blink-cursor-mode 0)			; Stop cursor blinking.
+  (scroll-bar-mode 0)			; Where we're going, we don't need no scroll bar
+  (display-time-mode 1)			; Add clock into mode line
+  (display-battery-mode 1)		; Show battery mode on modeline
+#+end_src
