@@ -1,21 +1,120 @@
-* Configuration File Using Literate Programming Technique.
-I'll start with a very simple file and then add functions in bit by bit. 
+#
+# Emacs 29 Configuration file using Org Mode. Check comments below for extra information
+#
 
+# The Preamble.
+#+title: Emacs 29 Configuration File - Using Literate Programming and Org mode.
+#+author: Richard Fieldsend
+#+email: richardfieldsend@gmail.com
+#+language: en
+#+latex_class: article
+#+latex_header: \usepackage[margin=2cm]{geometry}
+
+#+begin_abstract
+This file, config.org, is a standard Org mode file supporting Org mode
+markup. It is special in that it supports the use of Babel tangling of
+programming components. Upon starting Emacs the file is read, compiled
+into a second file 'config.el' which contains just the code, and this
+is then used as the configuration file for the program. The literate
+functionality is derived from the work of Donald Knuth who felt that
+programming had moved beyond being code with comments, to being best
+achieved by writing descriptive text and embedding the code into the
+literate explanation of how it works.
+
+I think there is an argument for the fact that many higher languages
+made literate programming less important because well written code in
+those languages is straightforward enough to follow, but the literate
+coding approach is still useful when you need to explain how your code
+is intended to work, and it works so darn well with Org Mode and
+Emacs, so it would be a shame to not use it!
+#+end_abstract
+
+# The preamble is used to set items such as the document title, author etc. 
+
+* Introduction.
+
+The central premise of using the literate programming paradigm is to
+write explanatory text describing your thought processes regarding how
+you plan for your code to work, and to then embed the code itself
+within the file in such a way as it will then be processed into useful
+code when the file is processed. In the case of this file the original
+file 'config.org' will be processed to generate the file config.el,
+containing just the Emacs Lisp code responsible for setting up Emacs.
+
+I'm rebuilding the config.org file, including more Org related stuff
+(like a title, author and abstract) as I have also upgraded Emacs to
+the development version Emacs 29.0.50 (April 2022). I'm going to try
+and arrange the file into some sort of order too, while also placing
+it under version control *before* I have version control configured
+within Emacs. The order of things may change, but I'll try and make it
+logical.
+
+* Emacs Customisation Code
+
+** Activating the Org Mode and Enabling Use Package Functionality.
+
+The first source code component of the config.org files configures the
+support for package installing, linking to the MELPA repository for
+the code packages used by Emacs in the rest of the file. The 'Use
+Package' functionality that this enables makes adding the
+functionality a case of using 'use-package' and then the package file
+name. 
+
+#+caption[Use Package]: Configure Org Mode source code for Emacs Lisp
 #+begin_src emacs-lisp
-  (eval-and-compile)
-  (require 'package)
-  (add-to-list 'package-archives
-	       '("melpa" . "https://melpa.org/packages/"))
-  (package-initialize)
-  (package-refresh-contents)
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-  (require 'use-package)
-  (setq use-package-always-ensure t)
+    (eval-and-compile)
+      (require 'package)
+      (add-to-list 'package-archives
+		   '("melpa" . "https://melpa.org/packages/"))
+      (package-initialize)
+      (package-refresh-contents)
+      (unless (package-installed-p 'use-package)
+	(package-install 'use-package))
+      (require 'use-package)
+      (setq use-package-always-ensure t)
 #+end_src
 
-** Built-in functions.
+*** TODO Investigate how best to label source code blocks.
 
+** Look And Feel.
+
+*** Simplifying Emacs Interface Configuration Using Built-in Functionality.
+
+First things first. I know that I saw a blog post not so long ago that
+argued that the Emacs community is not doing itself any favours by
+suggesting to beginners that they turn off the menu bar and tool
+bar. The argument, which I think was probably quite valid, was that it
+was difficult for a new user to become familiar with a piece of
+software if they had to rely on keyboard commands. However, I have
+been using Emacs for a long time now, have most of the keyboard
+shortcuts I need to know memorised, and so I don't need things like
+the toolbar or menu. To this end, this next section of code switches
+off some of the functionality which I don't need, freeing up screen
+real estate, for the stuff I really want.
+
+For clarification:
+- Menu Bar Mode - removes the classic 'File Edit etc' menu bar
+- Tool Bar Mode - removes the icons for things like 'save'
+- Blink Cursor Mode - makes cursor a steady block rather than flashing
+  one.
+- Scroll Bar Mode - remove the scroll bar. I use other ways to move
+  around.
+- Display Time Mode - Put time in the information bar at bottom of
+  window.
+- Display Batter Mode - Information (largely the amount of charge)
+  about the battery.
+
+Having switched off the tool bar, menu bar and scroll bar, the
+interface is much sparser, with just the editing window and the
+information bar at the foot of the window. This information bar is
+augmented with time and battery information.
+
+The customisation continues from here, but this does create a fairly
+blank canvas to work with. At this stage, however, the text is in a
+pretty so-so font, the background is plain white, and it needs to be
+made much prettier. Onwards and upwards.
+
+#+caption[builtin aesthetics]: Built-in functions to manage the appearance of Emacs.
 #+begin_src emacs-lisp
   (menu-bar-mode 0)			; Turn off menu bar
   (tool-bar-mode 0)			; Turn off the icons
@@ -23,4 +122,156 @@ I'll start with a very simple file and then add functions in bit by bit.
   (scroll-bar-mode 0)			; Where we're going, we don't need no scroll bar
   (display-time-mode 1)			; Add clock into mode line
   (display-battery-mode 1)		; Show battery mode on modeline
+#+end_src
+
+*** Not Making A Splash.
+
+The standard Emacs startup includes a relatively simple startup screen
+with a graphic and some links to things like the Emacs manual. I would
+prefer to have no splash screen, but a simple bit of text. 
+
+#+caption[NoSplash]: Switch off the Emacs splash screen.
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)	; Splash Screen Disabled.
+#+end_src
+
+I have configured this text in the past in such a way that each
+computer that I run Emacs on uses a different bit of text. As I'm
+starting this from scratch I will just add the quote, crafted for this
+laptop (ziggyi5), but with information on how to create the text for
+other machines so that if I need to add others in the future I'll
+remember how to do it.
+
+Initially, the only computer I am interested in providing this text
+for is this one. The selection of the text is carried out on the basis
+of the name of the system name. To determine the system name as far as
+Emacs is concerned you can use the describe-variable function and then
+ask to see the variable 'system-name'. To do this:
+
+- M-x describe-variable
+- Enter system-name
+
+On this laptop the system name is ziggyi5
+
+#+caption[startuptext]: Display defined text on the basis of the system name.
+#+begin_src emacs-lisp
+  ;; The laptop 'ziggyi5' is an 11th Gen i5 processor Dell
+  (if (string=(system-name) "ziggyi5")
+      (setq initial-scratch-message
+	    "We demand rigidly defined areas of doubt and uncertainty!\n\tVroomfondel The Philosopher\n\n\tDouglas Adams, The Hitchhikers Guide To The Galaxy."))
+#+end_src
+
+Other computers can be added in with their own particular bit of text
+by simply adding another check against the system name on that
+machine.
+
+*** Selecting A Nicer Font.
+
+One of the most popular posts on Emacs Porn on Reddit appears to be
+discussions an which fonts people like to use in Emacs. I don't really
+mind the default one that I have now, but I do think that there are
+nicer fonts, so I occassionally pick a different one for a period.
+
+#+caption[nice font]:Selecting a nicer font for using Emacs day to
+day.
+#+begin_src emacs-lisp
+  ;; Setting font to Hack.
+  (add-to-list 'default-frame-alist '(font . "Hack-9"))
+  (set-face-attribute 'default nil
+		      :family "Hack")
+#+end_src
+
+** Core Functionality That Affects All Of Emacs.
+
+This section is intended to provide behaviour that works everywhere
+within Emacs. It will cover behaviour such as where backup files are
+saved, the creation of abbreviation expansions and the like.
+
+*** Creating File Backups At Save, But Keep Them Out Of The Way.
+
+I would like to keep a small number of backups for files, but not have
+them litter the folders where the files live. The default behaviour
+for Emacs is to keep a previous version of the file with a tilde (~)
+appended to the name. This works, but doesn't play nicely with proper
+version control (the backups have to be excluded from the repository),
+and doesn't even really provide a fallback as you only have the most
+recent version.
+
+The suggested configuration from the Emacs Wiki is to create a backup
+folder for all the old versions to be placed in, and to then configure
+the system to keep a restricted number of copies of the files.
+
+#+caption[backupconfig1]: Configuring backing up of old copies to a single folder.
+#+begin_src emacs-lisp
+  ;; Code fragment from: https://www.emacswiki.org/emacs/BackupDirectory
+  (setq backup-by-copying t      ; don't clobber symlinks
+	backup-directory-alist
+	'(("." . "~/.Backups/"))    ; Put all the backups in this folder
+	delete-old-versions t	  ; Remove older files as required.
+	kept-new-versions 6	  ; Keep 6 most recent versions
+	kept-old-versions 6	  ; Keep 2 oldest versions
+	version-control t		  ; use versioned backups
+	vc-make-backup-files t	  ; Backup files, even when under Version Control
+	auto-save-interval 60	  ; Auto save interval in seconds
+	auto-save-timeout 60	  ; Auto save timeout
+	auto-save-file-name-transforms '((".*" "~/.Backups/" t)))       
+#+end_src
+
+*** Returning To The Same Place When Returning To A File.
+
+There will be times when you want to edit the same file over and over,
+and you don't want to have to search for where you were editing
+before. Even if you know that you want to go straight to the end of
+the file (M->) it is useful to have the cursor return to the original
+location. This is provided by the Emacs 'Save Place'
+functionality. This changed at some point around version 25, but I
+only need to know about this newer behaviour as this is version
+29.0.50 that I'm dealing with.
+
+#+caption[Save Place]:Save cursor position and return there next time
+#+begin_src emacs-lisp
+  ;; Code for this is described on webpage: https://www.emacswiki.org/emacs/SavePlace
+  (save-place-mode 1)
+#+end_src
+
+*** Maintain a Command History Between Restarts.
+
+It may be controversial, but sometimes you may choose to restart Emacs
+because you are doing one of the few things that it doesn't do. If you
+go back to the system later you probably want to be able to use the
+previous commands again, so in the same way that Bash's history
+persists between restarts, this sections sets up the same behaviour in
+Emacs.
+
+#+caption[commandhistory]:Maintain a command history in Emacs.
+#+begin_src emacs-lisp
+  ;; This was originally flagged in Sacha Chua's guide to C3F here:
+  ;; https://www.wisdomandwonder.com/wp-content/uploads/2014/03/C3F.html
+  ;; See description below.
+  (setq savehist-file "~/.Backups/savehist"
+	history-length t
+	history-delete-duplicates t
+	savehist-save-minibuffer-history 1
+	savehist-additional-variables
+	'(kill-ring
+	  search-ring
+	  regexp-search-ring))
+  (savehist-mode 1)
+#+end_src
+
+With this configuration in place, starting a new Emacs session gives
+access to previous commands as used within the minibuffer. This can be
+useful, either in looking back so you can re-run a command, or to find
+a previous command, 'fix' it and run the new version.
+
+*** Highlighting The Current Line.
+
+The next function to enable is one that helps you to locate the line
+that the cursor is on. The approach is simple. The line is
+highlighted.
+
+#+caption[linehighlight]:Highlight the line that the cursor is on.
+#+begin_src emacs-lisp
+  ;; Highlight the current line.
+  (global-hl-line-mode 1)
 #+end_src
