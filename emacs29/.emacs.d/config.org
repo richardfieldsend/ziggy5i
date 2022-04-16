@@ -29,7 +29,7 @@ is intended to work, and it works so darn well with Org Mode and
 Emacs, so it would be a shame to not use it!
 #+end_abstract
 
-# The preamble is used to set items such as the document title, author etc. 
+# The preamble is used to set items such as the document title, author etc.
 
 * Introduction.
 
@@ -58,7 +58,7 @@ support for package installing, linking to the MELPA repository for
 the code packages used by Emacs in the rest of the file. The 'Use
 Package' functionality that this enables makes adding the
 functionality a case of using 'use-package' and then the package file
-name. 
+name.
 
 #+caption[Use Package]: Configure Org Mode source code for Emacs Lisp
 #+begin_src emacs-lisp
@@ -128,7 +128,7 @@ made much prettier. Onwards and upwards.
 
 The standard Emacs startup includes a relatively simple startup screen
 with a graphic and some links to things like the Emacs manual. I would
-prefer to have no splash screen, but a simple bit of text. 
+prefer to have no splash screen, but a simple bit of text.
 
 #+caption[NoSplash]: Switch off the Emacs splash screen.
 #+begin_src emacs-lisp
@@ -214,7 +214,7 @@ the system to keep a restricted number of copies of the files.
 	vc-make-backup-files t	  ; Backup files, even when under Version Control
 	auto-save-interval 60	  ; Auto save interval in seconds
 	auto-save-timeout 60	  ; Auto save timeout
-	auto-save-file-name-transforms '((".*" "~/.Backups/" t)))       
+	auto-save-file-name-transforms '((".*" "~/.Backups/" t)))
 #+end_src
 
 *** Returning To The Same Place When Returning To A File.
@@ -287,3 +287,60 @@ or M-g M-g.
   (global-linum-mode t)
 #+end_src
 
+*** Transparency For Emacs.
+
+One of the most popular look and feel changes that has lots of cool,
+but not much real function is transparency. The function below will
+lower the opacity of the window so that you can see the wallpaper
+behind it. The 85/50 values can be tweaked as required.
+
+#+caption[transparency]:Transparency for the Emacs window.
+#+begin_src emacs-lisp
+  (set-frame-parameter (selected-frame) 'alpha '(85 50))
+  (add-to-list 'default-frame-alist '(alpha 85 50))
+#+end_src
+
+The first figure (currently 85) appears to be the opacity of the
+window, so decreasing it will make the page more transparent.
+
+*** White Space Trimming When Saving
+
+When working on files for a long period it is possible to end up
+adding blank lines at the end of the file. In most cases these are
+harmless, but in some programming languages it can be
+problematic. Because of this it is possible to trim the white space at
+the end of the file when the file is saved.
+
+#+caption[whitespaceTrimming]:Trim white space automatically when the file is saved.
+#+begin_src emacs-lisp
+  ;; Run 'delete-trailing-whitespace function when the file is saved
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
+
+Extra lines are trimmed before the file is saved. This works as
+expected. I made a 'todo' note in an earlier version of this file
+regarding having a configuration that removed double spaces after a
+full stop, as this is no longer deemed to be the way things should be
+apparently, but given that my plan is to use Emacs to generate LaTeX
+and this puts in the double spaces anyway, no problem, I can ignore
+the issue.
+
+*** Easier Responses to Yes Or No Questions.
+
+There are a number of times when Emacs may need to ask for
+confirmation before carrying out an action. For instance, closing or
+killing a buffer which has been edited since it was last saved. The
+standard requirement is for responses to be of the form yes or
+no. This is way too many characters for a user to type, so the
+following function converts the requirement to y or n.
+
+#+caption[yorn]:Yes or No responses using single characters.
+#+begin_src emacs-lisp
+  ;; A one line function to request a single letter y or n and return
+  ;; true if y or nil if n (compiled Lisp code built in to Emacs)
+  (fset 'yes-or-no-p' 'y-or-n-p)
+#+end_src
+
+This is one of those little tweaks which is so useful that you don't
+even realise you have it switched on until it isn't there and you miss
+it!
