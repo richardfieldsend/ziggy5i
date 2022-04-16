@@ -359,3 +359,30 @@ default mode by the setting below.
   ;; Set the default major mode to text.
   (setq-default major-mode 'text-mode)
 #+end_src
+
+*** Activate Line Wrapping in Popular Modes.
+
+One of the things that is a very obvious difference between Emacs and
+word processors is that vanilla emacs doesn't wrap lines of text by
+default. In the world of programming that Emacs comes from, I guess
+that this made some sense, or that it allowed for the sort of
+flexibility that Emacs is famed for. However, while I have been
+writing the text in this file, I have had to switch on word wrapping
+when logging in. Obviously the best approach is to actually activate
+it in all circumstances and then the user can switch it off it
+appropriate.
+
+#+caption[autofill]:Activate auto-fill to wrap longer lines sensibly.
+#+begin_src emacs-lisp
+  ;; Activate auto-fill as a minor mode when activating the following
+  ;; major modes. If I find that I am using other modes that require
+  ;; word wrapping then they can be added to this function at a later
+  ;; date.
+  (add-hook 'text-mode-hook 'turn-on-auto-fill) ; text mode
+  (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill) ; AuCTeX mode
+  (add-hook 'latex-mode-hook 'turn-on-auto-fill) ; LaTeX mode
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)   ; Org Mode
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill) ; Emacs Lisp mode
+  (add-hook 'fundamental-mode-hook 'turn-on-auto-fill) ; Fundamental mode
+  (add-hook 'prog-mode-hook 'turn-on-auto-fill)	     ; Prog mode
+#+end_src
