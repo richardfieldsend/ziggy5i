@@ -344,3 +344,18 @@ following function converts the requirement to y or n.
 This is one of those little tweaks which is so useful that you don't
 even realise you have it switched on until it isn't there and you miss
 it!
+
+*** Making The Default Emacs mode Text Mode.
+
+Emacs has a number of special behaviours that are present only within
+specific modes. These modes include things like 'fundamental', 'text',
+'LaTeX' and 'Org'. In most cases the mode is triggered by the type of
+file which has been loaded, but previous testing has indicated that
+Text mode is the preferred base mode. To this end I have made this the
+default mode by the setting below.
+
+#+caption[textMode]:Make the default mode 'Text Mode'.
+#+begin_src emacs-lisp
+  ;; Set the default major mode to text.
+  (setq-default major-mode 'text-mode)
+#+end_src
