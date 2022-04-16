@@ -386,3 +386,47 @@ appropriate.
   (add-hook 'fundamental-mode-hook 'turn-on-auto-fill) ; Fundamental mode
   (add-hook 'prog-mode-hook 'turn-on-auto-fill)	     ; Prog mode
 #+end_src
+
+*** Providing an Updating Time Stamp in Files When Saved.
+
+This functionality should not be used for files which are going to be
+placed in version control. The reason is that every time the file is
+saved the timestamp string updates, which means that the file needs
+checking in to version control, for an entirely unimportant update.
+
+This doesn't mean that the use of time stamps isn't useful, just
+choose whether to put the file into version control, or have the file
+time stamped.
+
+Time stamping of files is simple to arrange. The time stamp is created
+by adding the text:
+
+- Time-stamp: " "
+
+  or
+
+- Time-stamp: < >
+
+within the first 8 lines of the file. The space between the quotation
+marks or the angle brackets are then replaced with the time stamp.
+
+#+caption[timestamp]:Time stamp generation activated.
+#+begin_src emacs-lisp
+  ;; Trigger the creation of the time stamp when the file is saved using
+  ;; the file save hook.
+  (add-hook 'before-save-hook 'time-stamp) ; run time stamp function when saving the file
+  (setq time-stamp-pattern nil)		 ; don't modify time stamp format.
+#+end_src
+
+Information on the time stamp can be found here:
+
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Time-Stamps.html
+
+Points to remember when using time stamps.
+
+- need to be in the first 8 lines of file
+
+- need a space between the " " or < >
+
+- Start the text Time-stamp: with a capital T otherwise the timestamp
+  isn't inserted.
