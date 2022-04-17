@@ -534,3 +534,19 @@ in the code blocks, enabling the native indentation for each language.
 This entry may need to be tested with languages that care more about
 indentation than Lisp, but having added the above, the text appears to
 indent appropriately in Lisp mode.
+
+*** Emacs Frame Title - Better Text.
+
+The frame title for the Emacs window is, by default, pretty
+generic. It lists the file being worked on, the name of the program
+(GNU Emacs) and the machine name, but this can be modified.
+
+#+caption[title]:Set the window title to something useful.
+#+begin_src emacs-lisp
+  ;; Set frame title
+  (setq frame-title-format '("Emacs - Buffer: %b : File %f : Mode %m"))
+#+end_src
+
+This function modifies the frame title text to read:
+
+Emacs - Buffer: active buffer : File file location : Mode mode
