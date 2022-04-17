@@ -1,0 +1,15 @@
+;;-*-coding: utf-8;-*-
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("btw" "by the way" nil :count 1)
+    ("bw" "Best wishes" nil :count 2)
+    ("hth" "hope that helps" nil :count 1)
+    ("l" "Lizzie" nil :count 1)
+    ("lf" "Lizzie Fieldsend" nil :count 1)
+    ("m" "Morag" nil :count 1)
+    ("mf" "Morag Fieldsend" nil :count 1)
+    ("r" "Richard" nil :count 1)
+    ("rf" "Richard Fieldsend" nil :count 1)
+    ("teh" "the" nil :count 1)
+   ))
+

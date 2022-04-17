@@ -338,7 +338,7 @@ following function converts the requirement to y or n.
 #+begin_src emacs-lisp
   ;; A one line function to request a single letter y or n and return
   ;; true if y or nil if n (compiled Lisp code built in to Emacs)
-  (fset 'yes-or-no-p' 'y-or-n-p)
+  (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
 This is one of those little tweaks which is so useful that you don't
@@ -430,3 +430,86 @@ Points to remember when using time stamps.
 
 - Start the text Time-stamp: with a capital T otherwise the timestamp
   isn't inserted.
+
+*** Abbreviation Expansions.
+
+**** Dynamic Expansion - In Document Lookup For Expansions.
+
+This function is useful as a way of speeding up typing of terms which
+are difficult to type, but which are already present within a
+document. For example, the following is a piece of scientific
+equipment:
+
+Weissenberg Rheogoniometer
+
+This is a bit of a handful to type, see also sub-arachnoid
+haemorrhage or even the code delimiters in this document. In each
+case, if the document already has the text in it, then you can use M-/
+to look for a suitable expansion. Type:
+
+Wei
+
+then hit M-/ to expand this to Weissenberg, then hit space and M-/
+again and the Rheogoniometer will be appended. Once you are used to
+this, it can really accelerate your typing. By all accounts, the
+expansions are drawn up on the basis of how close to the existing
+entry your term is, so if you are writing on a particular subject then
+this can really come into its own.
+
+**** Dynamic Abbreviation Expansion - Replacing Text On The Fly.
+
+**** TODO Hippie Expand investigate (Clojure reference)
+
+The above is a great tool for those bits of text that only appear in
+the odd document. Emacs also has a function where text is replaced on
+the fly. This can be used to expand pre-determined text into a
+suitable string. Among the useful expansions are:
+
+tia - thanks in anticipation
+
+bw - Best wishes
+
+hth - hope that helps
+
+r - Richard
+
+m - Morag
+
+l - Lizzie
+
+Another really useful expansion is to fix the sorts of typos that
+occur regularly.
+
+hte - the
+
+The code below configures the location of the abbreviation file which
+I will place in the same folder as this configuration file in order
+that it can be placed under version control.
+
+#+caption[abbreviations]:Configuration of abbreviation expansion
+#+begin_src emacs-lisp
+    ;; Switch on abbreviation expansion minor mode and define where it is stored.
+  (setq-default abbrev-mode t)
+  (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
+  (setq save-abbrevs 'silent)
+#+end_src
+
+The process of expanding an abbreviation is automatic, but as this is
+the case it is important to choose the string to be expanded
+carefully. It shouldn't be a string that you are going to want to use
+anywhere else. If an abbreviation is expanded and this isn't what is
+required then there is a fix. The full guide can be found here:
+
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Expanding-Abbrevs.html
+
+To unexpand an expanded abbreviation use:
+
+M-x unexpand-abbrev
+
+***** Adding Abbreviations For Expansion.
+
+With the cursor sitting at the end of the string to be expanded enter:
+
+C-x a i g - Add global abbreviation for use in all modes
+
+C-x a i l - Add local abbreviation for use in current mode.
