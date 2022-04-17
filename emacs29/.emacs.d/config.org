@@ -231,7 +231,8 @@ only need to know about this newer behaviour as this is version
 #+caption[Save Place]:Save cursor position and return there next time
 #+begin_src emacs-lisp
   ;; Code for this is described on webpage: https://www.emacswiki.org/emacs/SavePlace
-  (save-place-mode 1)
+  (save-place-mode 1)			    ; Turn on 'return to previous location'
+  (setq save-place-file "~/.Backups/.places") ; Location of the places file.
 #+end_src
 
 *** Maintain a Command History Between Restarts.
@@ -506,10 +507,30 @@ To unexpand an expanded abbreviation use:
 
 M-x unexpand-abbrev
 
-***** Adding Abbreviations For Expansion.
+**** Adding Abbreviations For Expansion.
 
 With the cursor sitting at the end of the string to be expanded enter:
 
 C-x a i g - Add global abbreviation for use in all modes
 
 C-x a i l - Add local abbreviation for use in current mode.
+
+*** Native Code Indentation In Org Mode Code Blocks.
+
+So far, in this file, I have only been adding Emacs Lisp code blocks,
+which makes sense as the code is configuring the way that Emacs
+works. Lisp isn't particularly indent sensitive, caring much more
+about parentheses.
+
+This functionality manages the way that Org Mode manages the indenting
+in the code blocks, enabling the native indentation for each language.
+
+#+caption[orgIndentation]:Native Indenting Of Coding In Org Code Blocks.
+#+begin_src emacs-lisp
+  ;; Manage Org Mode Code Blocks by having tabs act natively within the code blocks.
+  (setq org-src-tab-acts-natively t)
+#+end_src
+
+This entry may need to be tested with languages that care more about
+indentation than Lisp, but having added the above, the text appears to
+indent appropriately in Lisp mode.
