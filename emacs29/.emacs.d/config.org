@@ -550,3 +550,30 @@ generic. It lists the file being worked on, the name of the program
 This function modifies the frame title text to read:
 
 Emacs - Buffer: active buffer : File file location : Mode mode
+
+*** Bookmarking In Emacs.
+
+One method of being able to navigate back to specific locations is to
+use bookmarks.
+
+#+caption[bookmarks]:Bookmarks in Emacs.
+#+begin_src emacs-lisp
+  ;; Configure the location for my Bookmarks file and create a trigger so that it gets
+  ;; saved automatically when Emacs saves files.
+  (set 'bookmark-default-file "~/.Backups/.bookmarks")
+  (add-hook 'before-save-hook 'bookmark-save)
+#+end_src
+
+The commands for using bookmarks are:
+
+C-x r m - Mark the current location as a bookmark.
+
+C-x r b - Jump to a bookmark
+
+C-x r l - List the available bookmarks.
+
+The bookmarks list can be navigated and edited from the bookmarks
+list. More information on managing the bookmarks list can be found
+here:
+
+https://www.emacswiki.org/emacs/BookMarks
