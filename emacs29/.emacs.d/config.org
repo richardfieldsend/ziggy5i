@@ -614,3 +614,41 @@ return to the same document, especially when you are working on the
 same file over and over.
 
 *** Packages Affecting Look And Feel
+
+I have been happily working with the default theme while creating the
+configuration file so far, but now it is time to introduce a nicer,
+darker theme. There are many, many Emacs themes available, so it is
+nice to change them up once in a while.
+
+#+caption[colourtheme]:Using Emacs Colour Theme to change the colour scheme.
+#+begin_src emacs-lisp
+  ;; The use-package for the colour schemes is doom-themes because they were
+  ;; originally intended for use with Doom Emacs. The Git repository is here:
+  ;; https://github.com/doomemacs/themes
+  ;; and screenshots showing how the themes look can be found here:
+  ;; https://github.com/doomemacs/themes/tree/screenshots
+  (use-package doom-themes
+    :config
+    ;; global settings (defaults)
+    (setq doom-themes-enable-bold t	; if nil, bold is disabled
+	doom-themes-enable-italic t)	; if nil, italic is disabled
+    (load-theme 'doom-zenburn t)
+    ;; Enable flashing line mode line on error
+    (doom-themes-visual-bell-config)
+
+    ;; Enable custom neotree theme (all-the-icons must be installed)
+    (doom-themes-neotree-config)
+    ;; or, for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use the colourful treemacs theme
+    (doom-themes-treemacs-config)
+
+    ;; Corrects (and improves) org-mode's native fontification
+    (doom-themes-org-config))
+#+end_src
+
+Initial testing with doom-material looked good, but the comments are
+quite difficult to read. Testing a number of other themes, many of
+them had the same issue. Looking a previous version of this
+configuration file, I had settled on Zenburn, and this does have nice,
+readable comment text, so I have returned to using that for the time
+being.
