@@ -121,9 +121,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# install ruby gems to ~/gems 
+# install ruby gems to ~/gems
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
+
+# configure Emacs (the one true Editor) as the default editor (can it
+# be the daemon version?)
+export EDITOR="emacsclient -a -c''"
 
 # Load neofetch when the terminal loads.
 neofetch
