@@ -779,3 +779,26 @@ function provides this behaviour.
 To access the Git information within dired where Git information is
 available then the above function includes a key map for toggling the
 dired information on and off.
+
+*** In-Emacs Version Control using Magit.
+
+This is the first major package, providing a way of dealing with all
+the Git functionality within Emacs.
+
+#+caption[magit]:Magit and all its requirements.
+#+begin_src emacs-lisp
+  ;; Magit and its dependencies.
+  (use-package dash
+    diminish
+    magit-popup
+    with-editor
+    ghub)
+  ;; Having installed the pre-requisites, now time to install Magit.
+  (use-package magit
+    :config (global-set-key (kbd "C-x g") 'magit-status))
+
+  ;; Connect Magit documentation for use within Emacs.
+  (with-eval-after-load 'info
+    (info-initialize)
+    (add-to-list 'Info-directory-list "~/.emacs.d/elpa/magit-20220412.2029/dir/"))
+#+end_src
