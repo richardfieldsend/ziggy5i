@@ -689,3 +689,60 @@ text.
     :config (add-hook 'text-mode-hook 'electric-pair-mode)
     :config (add-hook 'org-mode-hook 'electric-pair-mode))
 #+end_src
+
+In the future I might choose a different colour theme as the brackets
+in this theme don't look strikingly different, but I find that the
+inserting of the closing bracket is the most useful part of the
+process anyway.
+
+*** Enhancing The Mode Line - Using The Doom Mode Line.
+
+The standard mode line is informative, but not pretty. This
+configuration ass an indicator for the file type (requiring
+installation of the 'all-the-icons' package) and a Doom theme.
+
+#+caption[modeline]:Improving the appearance of the Mode Line.
+#+begin_src emacs-lisp
+  ;; Install the 'all-the icons' and doom-modeline packages.
+  (use-package all-the-icons)
+  (use-package doom-modeline
+    :hook (after-init . doom-modeline-mode)
+    :config (setq doom-modeline-icon t))	; trigger icon display in the mode line.
+  (use-package all-the-icons-dired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+end_src
+
+Note that when the all-the-icons package in installed it is necessary
+to follow this up by running the command 'all-the-icons-install-fonts'
+as well. Until this is done the icons aren't available and you just
+get odd boxes where the icons should be. The answer to this issue was
+found on this Reddit post:
+
+https://www.reddit.com/r/emacs/comments/s7828m/alltheicons_icons_not_showing_properly/
+
+Also added the all-the-icons-dired functionality so that the icons
+appear in the dired mode. This requires triggering the icons using the
+dired hook in the above functions.
+
+*** Provide Small Text Overview Using Minimap.
+
+One popular function used in editors is to provide a sidebar which
+shows the text of a proportion of the file in very small text. This
+can help a person working on the file to understand where they are in
+the body of the file. The minimap provides a visual indication on the
+file, but it is in text which is far too small to be able to read. The
+only feedback you get in realtime is that the line which the cursor is
+on is marked in a colour to stand out. Using Zenburn as the theme for
+Emacs gives an active line in Minimap with a blue background.
+
+I'm never really sure whether I like this. I think it is quite a nice
+idea if working on a larger screen (it is even possible that you could
+have a screen which was large enough to make the text
+readable). Switching it on and off seems a bit hit and miss, so I'll
+give it a chance, and maybe comment out the code at a later date.
+
+#+begin_src emacs-lisp
+    (use-package minimap
+      :config (setq minimap-major-modes '(tex-mode LaTeX-mode latex-mode prog-mode org-mode))
+      :config (minimap-mode 1))
+#+end_src
