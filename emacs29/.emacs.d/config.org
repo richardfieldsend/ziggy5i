@@ -577,3 +577,40 @@ list. More information on managing the bookmarks list can be found
 here:
 
 https://www.emacswiki.org/emacs/BookMarks
+
+
+** Package Based Functionality.
+
+*** Introduction.
+
+The code in this section uses various packages to enhance the
+funcionality of Emacs. In general these packages are part of the Melpa
+repositories and are installed using 'use-package'.
+
+*** Packages Affecting All Emacs Modes
+
+**** recentf - Re-open Files Used Recently.
+
+#+caption[recentf]:Re-opening Files Recently Opened.
+#+begin_src emacs-lisp
+  ;; recentf - A Package To Re-Open files.
+  (use-package recentf
+    :config
+    (setq recentf-save-file "~/.Backups/.recentf")
+    recentf-max-saved-items 500
+    recentf-max-menu-items 50
+    (recentf-mode +1)
+    (global-set-key (kbd "C-x C-r") 'recentf-open-files))
+#+end_src
+
+Having seemingly enabled this, I restarted Emacs and found that the
+key combination opened 'find file, read only'. This is because the
+abbreviation expansion had done its thing on the above command, making
+in C-x C-Richard!
+
+Now to test it. It works exactly as I had hoped, the correct key
+strokes gives a list of the most recent documents, a quick way to
+return to the same document, especially when you are working on the
+same file over and over.
+
+*** Packages Affecting Look And Feel
