@@ -746,3 +746,18 @@ give it a chance, and maybe comment out the code at a later date.
       :config (setq minimap-major-modes '(tex-mode LaTeX-mode latex-mode prog-mode org-mode))
       :config (minimap-mode 1))
 #+end_src
+
+*** Add Fancy Bullets to Org Mode Documents.
+
+Org Mode uses a simple markup language where headings of various
+levels are marked by using one or more asterisk. As the number of
+asterisks increase the whole thing begins to look a bit more
+clunky. The fix for this is to replace the header asterisks with a
+suitable fancy bullet.
+
+#+caption[prettyorgbullets]:Pretty Bullets in Org Mode.
+#+begin_src emacs-lisp
+  ;; Pretty bullets when using Org Mode.
+  (use-package org-bullets
+    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+end_src

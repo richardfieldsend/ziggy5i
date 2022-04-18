@@ -126,8 +126,9 @@ export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 
 # configure Emacs (the one true Editor) as the default editor (can it
-# be the daemon version?)
-export EDITOR="emacsclient -a -c''"
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -c -a emacs"
 
 # Load neofetch when the terminal loads.
 neofetch
