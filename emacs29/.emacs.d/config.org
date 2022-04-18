@@ -652,3 +652,40 @@ them had the same issue. Looking a previous version of this
 configuration file, I had settled on Zenburn, and this does have nice,
 readable comment text, so I have returned to using that for the time
 being.
+
+*** Rainbow Delimiters - Coloured Brackets For Readability.
+
+Whether the brackets are parentheses, curly or square, many
+programming languages rely on brackets. Tracking brackets can be
+difficult to do and errors are easily introduced by having unpaired
+brackets in code.
+
+Emacs makes it easier to track the pairing by colouring brackets which
+constitute a pair in the same colour.
+
+This function also includes 'electric' functionality which will
+automatically add the closing bracket when the opening bracket is
+inserted *and* puts the cursor in between the brackets ready to add
+text.
+
+#+caption[electricrainbow]:Rainbow delimiters and electric delimiter pairing.
+#+begin_src emacs-lisp
+  ;; Rainbow Delimiters Configured On Per Mode Basis.
+  (use-package rainbow-delimiters
+    :ensure t
+    :init
+    :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'latex-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'org-mode-hook 'rainbow-delimiters-mode))
+  ;; Electric behaviour such as adding closing brackets when opening bracket inserted
+  (use-package electric
+    :ensure t
+    :init
+    :config (add-hook 'prog-mode-hook 'electric-pair-mode)
+    :config (add-hook 'LaTeX-mode-hook 'electric-pair-mode)
+    :config (add-hook 'latex-mode-hook 'electric-pair-mode)
+    :config (add-hook 'text-mode-hook 'electric-pair-mode)
+    :config (add-hook 'org-mode-hook 'electric-pair-mode))
+#+end_src
