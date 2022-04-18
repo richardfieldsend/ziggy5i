@@ -761,3 +761,21 @@ suitable fancy bullet.
   (use-package org-bullets
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
+
+*** Display Useful Git Information in Dired Buffers.
+
+Dired mode, the Emacs file browser, is a sensible place to also
+display some useful information regarding Git status. The following
+function provides this behaviour.
+
+#+caption[diredgit]:Git information displayed in Dired.
+#+begin_src emacs-lisp
+    ;; Enable Git display in Dired
+    (use-package dired-git-info)
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map ")" 'dired-git-info-mode))
+#+end_src
+
+To access the Git information within dired where Git information is
+available then the above function includes a key map for toggling the
+dired information on and off.
