@@ -861,3 +861,33 @@ useful as I only have one file bookmarked (this one), but in the
 future it can be much more useful. Other functions can also be tweaked
 with Helm, so I have put the web pages that highlight how best to use
 Helm in my Pocket documents for future reference.
+
+*** Using Helm to control Spotify.
+
+A little oddity which is fun to have in place, if only to show people
+when they are accusing you of being a hacker. This function allows you
+to manage Spotify without ever leaving the Emacs window. You can
+search for tracks, play, pause and skip tracks, all while using the
+One True Editor.
+
+#+caption[helmspotify]:Using Helm to manage Spotify
+#+begin_src emacs-lisp
+  ;; Control Spotify from the comfort of your text editor.
+  (use-package helm-spotify-plus
+    :config (global-set-key (kbd "C-c s s") 'helm-spotify-plus)
+    :config (global-set-key (kbd "C-c s f") 'helm-spotify-plus-next)
+    :config (global-set-key (kbd "C-c s b") 'helm-spotify-plus-previous)
+    :config (global-set-key (kbd "C-c s p") 'helm-spotify-plus-play)
+    :config (global-set-key (kbd "C-c s g") 'helm-spotify-plus-pause))
+#+end_src
+
+To find music to play, you can search for the artist (prefix a:),
+track (prefix t:) or market (prefix m:). For example:
+
+- chumbawamba - free text search
+- a:chumbawamba - artist search
+- t:timebomb - track search
+- a:bragg t:levi
+
+Move through the results list and hit return to select a track to
+play.
