@@ -911,3 +911,56 @@ command:
 However, while it does show which achievements have been reached, it
 doesn't show what needs to be done for existing entries which are not
 always obvious.
+
+*** Which Key - Help To Master Emacs By Highlighting Keystrokes.
+
+#+caption[whichkey]:Which Key - Master Emacs By Learning The Key Strokes
+#+begin_src emacs-lisp
+  ;; Which Key
+  (use-package which-key
+    :ensure t)
+#+end_src
+
+Emacs works best when you get to know all the key mapping, and
+which-key helps you learn what the keys are.
+
+*** Nov.el - Read ePub documents within Emacs.
+
+Another package recommended by the author of Mastering Emacs as a way
+to read his book within Emacs itself.
+
+#+caption[epubreader]:ePub Reading Within Emacs.
+#+begin_src emacs-lisp
+      ;; Read ePub in Emacs.
+      (use-package nov
+	:ensure t
+	:mode ("\\.epub\\'" . nov-mode)
+	)
+#+end_src
+
+When this was originally configured it didn't work. Checking the
+messages, it appeared that the problem was related to Emacs not being
+compiled with the libxml2 support. To fix the problem:
+
+- Install the libxml2 development library using sudo apt install
+  libxml2-dev
+
+- Rerun ./autogen.sh and then ./configure so that Emacs knows that
+  libxml2-dev is installed.
+
+- Run make -j 8 -o 3 && sudo make install
+
+Now opening epub files works as expected.
+
+*** Write Room - Distraction Free Writing Environment.
+
+I'm interested, in general, in the idea of low distraction editing and
+writing interfaces. There are a few ways that this can be achieved in
+Emacs (Olivetti mode is also configured elsewhere in this
+configuration).
+
+#+caption[writeroom]:Write Room - Distraction Free Editing.
+#+begin_src emacs-lisp
+  ;; Write Room Mode - Keep It Simple.
+  (use-package writeroom-mode)
+#+end_src
