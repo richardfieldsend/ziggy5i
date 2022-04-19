@@ -802,3 +802,62 @@ the Git functionality within Emacs.
     (info-initialize)
     (add-to-list 'Info-directory-list "~/.emacs.d/elpa/magit-20220412.2029/dir/"))
 #+end_src
+
+*** Helm - Filtering Commands Everywhere.
+
+Helm is a filtering system which makes entering commands in Emacs
+easier.
+
+Rather than having to type the command that you want to run, you can
+type the words that are part of that command, and Helm will filter
+the available commands until you have the one you need at hand. I am
+never quite sure what it does until I see Emacs running without it and
+remember what I'm missing.
+
+An example of it in action is the process I use for updating the
+packages that I have installed in Emacs. It the absence of Helm I can
+obtain a list of the packages that are available by typing:
+
+M-x package-list-packages
+
+Tab complete works once l has been entered.
+
+However, with Helm in place I can type pack list and the command will
+filter down to the one I want without any further action. This
+filtering of available strings happens in many locations, simplifying
+many Emacs processes.
+
+#+caption[helm]:Helm - Providing string filtering everywhere.
+#+begin_src emacs-lisp
+  ;; Helm - Filtering everywhere. The Helm homepage can be found here:
+  ;; https://emacs-helm.github.io/helm/
+  (use-package helm
+    :diminish helm-mode
+    :init
+    :config (require 'helm)
+    :config (require 'helm-config)
+    :config (helm-mode 1)
+    :config (global-set-key (kbd "C-c h") 'helm-command-prefix)
+    :config (global-unset-key (kbd "C-x c"))
+    :config (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab run persistent action
+    :config (define-key helm-map (kbd "C-z") 'helm-select-action)
+    :config (global-set-key (kbd "M-x") #'helm-M-x)
+    :config (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+    :config (global-set-key (kbd "C-x C-f") #'helm-find-files)
+    ;; Change Helm buffer to be a small block at the base of the Emacs window, as described
+    ;; in this page: http://tuhdo.github.io/helm-intro.html
+    :config (setq helm-autoresize-max-height 0)
+    :config (setq helm-autoresize-min-height 20)
+    :config (helm-autoresize-mode 1))
+#+end_src
+
+The Helm package uses the Diminish package, but this is already
+included by Magit.
+
+Helm changes the way that some of Emacs works. For instance, the code
+above modifies the command to open the list of bookmarks to show the
+Helm based bookmark selection. At the moment this isn't massively
+useful as I only have one file bookmarked (this one), but in the
+future it can be much more useful. Other functions can also be tweaked
+with Helm, so I have put the web pages that highlight how best to use
+Helm in my Pocket documents for future reference.
