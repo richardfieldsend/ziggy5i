@@ -788,12 +788,7 @@ the Git functionality within Emacs.
 #+caption[magit]:Magit and all its requirements.
 #+begin_src emacs-lisp
   ;; Magit and its dependencies.
-  (use-package dash
-    diminish
-    magit-popup
-    with-editor
-    ghub)
-  ;; Having installed the pre-requisites, now time to install Magit.
+  (require 'diminish)
   (use-package magit
     :config (global-set-key (kbd "C-x g") 'magit-status))
 
