@@ -891,3 +891,28 @@ track (prefix t:) or market (prefix m:). For example:
 
 Move through the results list and hit return to select a track to
 play.
+
+*** Achievements - Track Your Emacs Skillz.
+
+There are multiple XKCD cartoons about Emacs (and Vi), about its
+learning curve and how there is a function to do just about
+anything. One of the downsides of this behaviour is that there is
+always something to learn about how to get more out of your
+editor. Achievements is a way of recording your progress and of
+providing challenges to spur you on your way.
+
+#+caption[achievements]:Measure your achievements while using Emacs.
+#+begin_src emacs-lisp
+  ;; Use achievements package to measure progress
+  (use-package achievements
+    :config (require 'achievements))
+#+end_src
+
+Once installed, a list of achievements can be viewed by entering the
+command:
+
+- achievements-list-achievements
+
+However, while it does show which achievements have been reached, it
+doesn't show what needs to be done for existing entries which are not
+always obvious.
