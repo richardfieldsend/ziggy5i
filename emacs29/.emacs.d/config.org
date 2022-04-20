@@ -964,3 +964,23 @@ configuration).
   ;; Write Room Mode - Keep It Simple.
   (use-package writeroom-mode)
 #+end_src
+
+When activated, Writeroom takes over the whole monitor, even when
+using the i3 window manager, leaving you with just the Emacs screen,
+with the modeline switched off. As I have turned off a lot of the
+decoration on Emacs anyway (tool bar, menu bar and scroll bar), the
+difference isn't as obvious as it would be if all of those things were
+present, but it is a very sparse interface, with huge margins on each
+side, even when the minimap is active. I like it on the big screen,
+but I'm less convinced of it on a laptop screen. We'll see.
+
+Looking at the helm menu and entering 'writeroom' I see that there is
+a 'global-writeroom-mode', which appears to implement writeroom
+everywhere, and there is a keyboard shortcut for toggling the
+modeline, which, in Writeroom mode appears at the top of the
+screen. The toggle is S-shift-? (S is the super key, otherwise known
+as the Windows key).
+
+Thus far, the presence of the modeline includes the line number and
+position (as a percentage for the active line, but I think the next
+change will add a word count).
