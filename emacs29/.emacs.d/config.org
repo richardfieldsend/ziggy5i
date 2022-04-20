@@ -698,7 +698,7 @@ process anyway.
 *** Enhancing The Mode Line - Using The Doom Mode Line.
 
 The standard mode line is informative, but not pretty. This
-configuration ass an indicator for the file type (requiring
+configuration has an indicator for the file type (requiring
 installation of the 'all-the-icons' package) and a Doom theme.
 
 #+caption[modeline]:Improving the appearance of the Mode Line.
@@ -707,7 +707,10 @@ installation of the 'all-the-icons' package) and a Doom theme.
   (use-package all-the-icons)
   (use-package doom-modeline
     :hook (after-init . doom-modeline-mode)
-    :config (setq doom-modeline-icon t))	; trigger icon display in the mode line.
+    :config (setq doom-modeline-icon t)
+    :config (setq doom-modeline-enable-word-count t
+		  doom-modeline-continuous-word-count-modes
+		  '(markdown-mode gfm-mode org-mode LaTeX-mode latex-mode fundamental mode)))	; trigger icon display in the mode line.
   (use-package all-the-icons-dired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 #+end_src
@@ -723,6 +726,19 @@ https://www.reddit.com/r/emacs/comments/s7828m/alltheicons_icons_not_showing_pro
 Also added the all-the-icons-dired functionality so that the icons
 appear in the dired mode. This requires triggering the icons using the
 dired hook in the above functions.
+
+**** Update on the Doom Modeline on 20th April 2022.
+
+I was looking to have word count displayed in the mode line. By
+default this isn't supported in the Doom modeline, but it is something
+that can be switched on using customise group. You can also define
+which modes use this function.
+
+Having switched on the word count, it is of course worth noting the
+values set in the customise group get written into the init.el
+file. I'm trying to keep this as pristine as possible, so I have
+migrated these values into the function above. This appears to be
+working. I'll monitor the messages to see if any issues arise.
 
 *** Provide Small Text Overview Using Minimap.
 
@@ -984,3 +1000,18 @@ as the Windows key).
 Thus far, the presence of the modeline includes the line number and
 position (as a percentage for the active line, but I think the next
 change will add a word count).
+
+A comment on using Writeroom mode and Magit Git version control. I
+have added a GPG key so that any changes to the code base are signed
+(and, on uploading to Github these are marked as being verified). This
+requires that when a commit is made I have to enter the passphrase for
+the GPG key. When in Writeroom mode the pop-up dialogue for this to
+happen is hidden behind the Emacs window
+
+*** Word Count mode - Notes.
+
+I have an entry in my old configuration file regarding the provision
+of word counting. This used a 'word count mode'. I haven't set this up
+this time as it is possible to have the word count displayed in the
+Doom mode line just by enabling it in the Doom modeline (see the Doom
+Modeline entry above).
