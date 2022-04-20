@@ -1,15 +1,11 @@
-#
-# Emacs 29 Configuration file using Org Mode. Check comments below for extra information
-#
-
 # The Preamble.
+
 #+title: Emacs 29 Configuration File - Using Literate Programming and Org mode.
 #+author: Richard Fieldsend
 #+email: richardfieldsend@gmail.com
 #+language: en
 #+latex_class: article
 #+latex_header: \usepackage[margin=2cm]{geometry}
-
 #+begin_abstract
 This file, config.org, is a standard Org mode file supporting Org mode
 markup. It is special in that it supports the use of Babel tangling of
@@ -28,6 +24,10 @@ coding approach is still useful when you need to explain how your code
 is intended to work, and it works so darn well with Org Mode and
 Emacs, so it would be a shame to not use it!
 #+end_abstract
+
+#
+# Emacs 29 Configuration file using Org Mode. Check comments below for extra information
+#
 
 # The preamble is used to set items such as the document title, author etc.
 
@@ -180,6 +180,23 @@ day.
   (set-face-attribute 'default nil
 		      :family "Hack")
 #+end_src
+
+*** Emacs Frame Title - Better Text.
+
+The frame title for the Emacs window is, by default, pretty
+generic. It lists the file being worked on, the name of the program
+(GNU Emacs) and the machine name, but this can be modified.
+
+#+caption[title]:Set the window title to something useful.
+#+begin_src emacs-lisp
+  ;; Set frame title
+  (setq frame-title-format '("Emacs - Buffer: %b : File %f : Mode %m"))
+#+end_src
+
+This function modifies the frame title text to read:
+
+Emacs - Buffer: active buffer : File file location : Mode mode
+
 
 ** Core Functionality That Affects All Of Emacs.
 
@@ -535,22 +552,6 @@ This entry may need to be tested with languages that care more about
 indentation than Lisp, but having added the above, the text appears to
 indent appropriately in Lisp mode.
 
-*** Emacs Frame Title - Better Text.
-
-The frame title for the Emacs window is, by default, pretty
-generic. It lists the file being worked on, the name of the program
-(GNU Emacs) and the machine name, but this can be modified.
-
-#+caption[title]:Set the window title to something useful.
-#+begin_src emacs-lisp
-  ;; Set frame title
-  (setq frame-title-format '("Emacs - Buffer: %b : File %f : Mode %m"))
-#+end_src
-
-This function modifies the frame title text to read:
-
-Emacs - Buffer: active buffer : File file location : Mode mode
-
 *** Bookmarking In Emacs.
 
 One method of being able to navigate back to specific locations is to
@@ -578,7 +579,6 @@ here:
 
 https://www.emacswiki.org/emacs/BookMarks
 
-
 ** Package Based Functionality.
 
 *** Introduction.
@@ -588,7 +588,6 @@ funcionality of Emacs. In general these packages are part of the Melpa
 repositories and are installed using 'use-package'.
 
 *** Packages Affecting All Emacs Modes
-
 **** recentf - Re-open Files Used Recently.
 
 #+caption[recentf]:Re-opening Files Recently Opened.
@@ -613,190 +612,7 @@ strokes gives a list of the most recent documents, a quick way to
 return to the same document, especially when you are working on the
 same file over and over.
 
-*** Packages Affecting Look And Feel
-
-I have been happily working with the default theme while creating the
-configuration file so far, but now it is time to introduce a nicer,
-darker theme. There are many, many Emacs themes available, so it is
-nice to change them up once in a while.
-
-#+caption[colourtheme]:Using Emacs Colour Theme to change the colour scheme.
-#+begin_src emacs-lisp
-  ;; The use-package for the colour schemes is doom-themes because they were
-  ;; originally intended for use with Doom Emacs. The Git repository is here:
-  ;; https://github.com/doomemacs/themes
-  ;; and screenshots showing how the themes look can be found here:
-  ;; https://github.com/doomemacs/themes/tree/screenshots
-  (use-package doom-themes
-    :config
-    ;; global settings (defaults)
-    (setq doom-themes-enable-bold t	; if nil, bold is disabled
-	doom-themes-enable-italic t)	; if nil, italic is disabled
-    (load-theme 'doom-zenburn t)
-    ;; Enable flashing line mode line on error
-    (doom-themes-visual-bell-config)
-
-    ;; Enable custom neotree theme (all-the-icons must be installed)
-    (doom-themes-neotree-config)
-    ;; or, for treemacs users
-    (setq doom-themes-treemacs-theme "doom-colors") ; use the colourful treemacs theme
-    (doom-themes-treemacs-config)
-
-    ;; Corrects (and improves) org-mode's native fontification
-    (doom-themes-org-config))
-#+end_src
-
-Initial testing with doom-material looked good, but the comments are
-quite difficult to read. Testing a number of other themes, many of
-them had the same issue. Looking a previous version of this
-configuration file, I had settled on Zenburn, and this does have nice,
-readable comment text, so I have returned to using that for the time
-being.
-
-*** Rainbow Delimiters - Coloured Brackets For Readability.
-
-Whether the brackets are parentheses, curly or square, many
-programming languages rely on brackets. Tracking brackets can be
-difficult to do and errors are easily introduced by having unpaired
-brackets in code.
-
-Emacs makes it easier to track the pairing by colouring brackets which
-constitute a pair in the same colour.
-
-This function also includes 'electric' functionality which will
-automatically add the closing bracket when the opening bracket is
-inserted *and* puts the cursor in between the brackets ready to add
-text.
-
-#+caption[electricrainbow]:Rainbow delimiters and electric delimiter pairing.
-#+begin_src emacs-lisp
-  ;; Rainbow Delimiters Configured On Per Mode Basis.
-  (use-package rainbow-delimiters
-    :ensure t
-    :init
-    :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-    :config (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
-    :config (add-hook 'latex-mode-hook 'rainbow-delimiters-mode)
-    :config (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
-    :config (add-hook 'org-mode-hook 'rainbow-delimiters-mode))
-  ;; Electric behaviour such as adding closing brackets when opening bracket inserted
-  (use-package electric
-    :ensure t
-    :init
-    :config (add-hook 'prog-mode-hook 'electric-pair-mode)
-    :config (add-hook 'LaTeX-mode-hook 'electric-pair-mode)
-    :config (add-hook 'latex-mode-hook 'electric-pair-mode)
-    :config (add-hook 'text-mode-hook 'electric-pair-mode)
-    :config (add-hook 'org-mode-hook 'electric-pair-mode))
-#+end_src
-
-In the future I might choose a different colour theme as the brackets
-in this theme don't look strikingly different, but I find that the
-inserting of the closing bracket is the most useful part of the
-process anyway.
-
-*** Enhancing The Mode Line - Using The Doom Mode Line.
-
-The standard mode line is informative, but not pretty. This
-configuration has an indicator for the file type (requiring
-installation of the 'all-the-icons' package) and a Doom theme.
-
-#+caption[modeline]:Improving the appearance of the Mode Line.
-#+begin_src emacs-lisp
-  ;; Install the 'all-the icons' and doom-modeline packages.
-  (use-package all-the-icons)
-  (use-package doom-modeline
-    :hook (after-init . doom-modeline-mode)
-    :config (setq doom-modeline-icon t)
-    :config (setq doom-modeline-enable-word-count t
-		  doom-modeline-continuous-word-count-modes
-		  '(markdown-mode gfm-mode org-mode LaTeX-mode latex-mode fundamental mode)))	; trigger icon display in the mode line.
-  (use-package all-the-icons-dired)
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-#+end_src
-
-Note that when the all-the-icons package in installed it is necessary
-to follow this up by running the command 'all-the-icons-install-fonts'
-as well. Until this is done the icons aren't available and you just
-get odd boxes where the icons should be. The answer to this issue was
-found on this Reddit post:
-
-https://www.reddit.com/r/emacs/comments/s7828m/alltheicons_icons_not_showing_properly/
-
-Also added the all-the-icons-dired functionality so that the icons
-appear in the dired mode. This requires triggering the icons using the
-dired hook in the above functions.
-
-**** Update on the Doom Modeline on 20th April 2022.
-
-I was looking to have word count displayed in the mode line. By
-default this isn't supported in the Doom modeline, but it is something
-that can be switched on using customise group. You can also define
-which modes use this function.
-
-Having switched on the word count, it is of course worth noting the
-values set in the customise group get written into the init.el
-file. I'm trying to keep this as pristine as possible, so I have
-migrated these values into the function above. This appears to be
-working. I'll monitor the messages to see if any issues arise.
-
-*** Provide Small Text Overview Using Minimap.
-
-One popular function used in editors is to provide a sidebar which
-shows the text of a proportion of the file in very small text. This
-can help a person working on the file to understand where they are in
-the body of the file. The minimap provides a visual indication on the
-file, but it is in text which is far too small to be able to read. The
-only feedback you get in realtime is that the line which the cursor is
-on is marked in a colour to stand out. Using Zenburn as the theme for
-Emacs gives an active line in Minimap with a blue background.
-
-I'm never really sure whether I like this. I think it is quite a nice
-idea if working on a larger screen (it is even possible that you could
-have a screen which was large enough to make the text
-readable). Switching it on and off seems a bit hit and miss, so I'll
-give it a chance, and maybe comment out the code at a later date.
-
-#+begin_src emacs-lisp
-    (use-package minimap
-      :config (setq minimap-major-modes '(tex-mode LaTeX-mode latex-mode prog-mode org-mode))
-      :config (minimap-mode 1))
-#+end_src
-
-*** Add Fancy Bullets to Org Mode Documents.
-
-Org Mode uses a simple markup language where headings of various
-levels are marked by using one or more asterisk. As the number of
-asterisks increase the whole thing begins to look a bit more
-clunky. The fix for this is to replace the header asterisks with a
-suitable fancy bullet.
-
-#+caption[prettyorgbullets]:Pretty Bullets in Org Mode.
-#+begin_src emacs-lisp
-  ;; Pretty bullets when using Org Mode.
-  (use-package org-bullets
-    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-#+end_src
-
-*** Display Useful Git Information in Dired Buffers.
-
-Dired mode, the Emacs file browser, is a sensible place to also
-display some useful information regarding Git status. The following
-function provides this behaviour.
-
-#+caption[diredgit]:Git information displayed in Dired.
-#+begin_src emacs-lisp
-    ;; Enable Git display in Dired
-    (use-package dired-git-info)
-    (with-eval-after-load 'dired
-      (define-key dired-mode-map ")" 'dired-git-info-mode))
-#+end_src
-
-To access the Git information within dired where Git information is
-available then the above function includes a key map for toggling the
-dired information on and off.
-
-*** In-Emacs Version Control using Magit.
+**** In-Emacs Version Control using Magit.
 
 This is the first major package, providing a way of dealing with all
 the Git functionality within Emacs.
@@ -804,7 +620,7 @@ the Git functionality within Emacs.
 #+caption[magit]:Magit and all its requirements.
 #+begin_src emacs-lisp
   ;; Magit and its dependencies.
-  (require 'diminish)
+  (use-package diminish)
   (use-package magit
     :config (global-set-key (kbd "C-x g") 'magit-status))
 
@@ -814,7 +630,7 @@ the Git functionality within Emacs.
     (add-to-list 'Info-directory-list "~/.emacs.d/elpa/magit-20220412.2029/dir/"))
 #+end_src
 
-*** Helm - Filtering Commands Everywhere.
+**** Helm - Filtering Commands Everywhere.
 
 Helm is a filtering system which makes entering commands in Emacs
 easier.
@@ -873,7 +689,7 @@ future it can be much more useful. Other functions can also be tweaked
 with Helm, so I have put the web pages that highlight how best to use
 Helm in my Pocket documents for future reference.
 
-*** Using Helm to control Spotify.
+**** Using Helm to control Spotify.
 
 A little oddity which is fun to have in place, if only to show people
 when they are accusing you of being a hacker. This function allows you
@@ -903,7 +719,7 @@ track (prefix t:) or market (prefix m:). For example:
 Move through the results list and hit return to select a track to
 play.
 
-*** Achievements - Track Your Emacs Skillz.
+**** Achievements - Track Your Emacs Skillz.
 
 There are multiple XKCD cartoons about Emacs (and Vi), about its
 learning curve and how there is a function to do just about
@@ -928,7 +744,7 @@ However, while it does show which achievements have been reached, it
 doesn't show what needs to be done for existing entries which are not
 always obvious.
 
-*** Which Key - Help To Master Emacs By Highlighting Keystrokes.
+**** Which Key - Help To Master Emacs By Highlighting Keystrokes.
 
 #+caption[whichkey]:Which Key - Master Emacs By Learning The Key Strokes
 #+begin_src emacs-lisp
@@ -940,7 +756,7 @@ always obvious.
 Emacs works best when you get to know all the key mapping, and
 which-key helps you learn what the keys are.
 
-*** Nov.el - Read ePub documents within Emacs.
+**** Nov.el - Read ePub documents within Emacs.
 
 Another package recommended by the author of Mastering Emacs as a way
 to read his book within Emacs itself.
@@ -968,7 +784,198 @@ compiled with the libxml2 support. To fix the problem:
 
 Now opening epub files works as expected.
 
-*** Write Room - Distraction Free Writing Environment.
+**** Word Count mode - Notes.
+
+I have an entry in my old configuration file regarding the provision
+of word counting. This used a 'word count mode'. I haven't set this up
+this time as it is possible to have the word count displayed in the
+Doom mode line just by enabling it in the Doom modeline (see the Doom
+Modeline entry above).
+
+*** Packages Affecting Look And Feel
+**** Doom Themes - Look and Feel of Text
+I have been happily working with the default theme while creating the
+configuration file so far, but now it is time to introduce a nicer,
+darker theme. There are many, many Emacs themes available, so it is
+nice to change them up once in a while.
+
+#+caption[colourtheme]:Using Emacs Colour Theme to change the colour scheme.
+#+begin_src emacs-lisp
+  ;; The use-package for the colour schemes is doom-themes because they were
+  ;; originally intended for use with Doom Emacs. The Git repository is here:
+  ;; https://github.com/doomemacs/themes
+  ;; and screenshots showing how the themes look can be found here:
+  ;; https://github.com/doomemacs/themes/tree/screenshots
+  (use-package doom-themes
+    :config
+    ;; global settings (defaults)
+    (setq doom-themes-enable-bold t	; if nil, bold is disabled
+	doom-themes-enable-italic t)	; if nil, italic is disabled
+    (load-theme 'doom-zenburn t)
+    ;; Enable flashing line mode line on error
+    (doom-themes-visual-bell-config)
+
+    ;; Enable custom neotree theme (all-the-icons must be installed)
+    (doom-themes-neotree-config)
+    ;; or, for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use the colourful treemacs theme
+    (doom-themes-treemacs-config)
+
+    ;; Corrects (and improves) org-mode's native fontification
+    (doom-themes-org-config))
+#+end_src
+
+Initial testing with doom-material looked good, but the comments are
+quite difficult to read. Testing a number of other themes, many of
+them had the same issue. Looking a previous version of this
+configuration file, I had settled on Zenburn, and this does have nice,
+readable comment text, so I have returned to using that for the time
+being.
+
+**** Rainbow Delimiters - Coloured Brackets For Readability.
+
+Whether the brackets are parentheses, curly or square, many
+programming languages rely on brackets. Tracking brackets can be
+difficult to do and errors are easily introduced by having unpaired
+brackets in code.
+
+Emacs makes it easier to track the pairing by colouring brackets which
+constitute a pair in the same colour.
+
+This function also includes 'electric' functionality which will
+automatically add the closing bracket when the opening bracket is
+inserted *and* puts the cursor in between the brackets ready to add
+text.
+
+#+caption[electricrainbow]:Rainbow delimiters and electric delimiter pairing.
+#+begin_src emacs-lisp
+  ;; Rainbow Delimiters Configured On Per Mode Basis.
+  (use-package rainbow-delimiters
+    :ensure t
+    :init
+    :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'latex-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
+    :config (add-hook 'org-mode-hook 'rainbow-delimiters-mode))
+  ;; Electric behaviour such as adding closing brackets when opening bracket inserted
+  (use-package electric
+    :ensure t
+    :init
+    :config (add-hook 'prog-mode-hook 'electric-pair-mode)
+    :config (add-hook 'LaTeX-mode-hook 'electric-pair-mode)
+    :config (add-hook 'latex-mode-hook 'electric-pair-mode)
+    :config (add-hook 'text-mode-hook 'electric-pair-mode)
+    :config (add-hook 'org-mode-hook 'electric-pair-mode))
+#+end_src
+
+In the future I might choose a different colour theme as the brackets
+in this theme don't look strikingly different, but I find that the
+inserting of the closing bracket is the most useful part of the
+process anyway.
+
+**** Enhancing The Mode Line - Using The Doom Mode Line.
+
+The standard mode line is informative, but not pretty. This
+configuration has an indicator for the file type (requiring
+installation of the 'all-the-icons' package) and a Doom theme.
+
+#+caption[modeline]:Improving the appearance of the Mode Line.
+#+begin_src emacs-lisp
+  ;; Install the 'all-the icons' and doom-modeline packages.
+  (use-package all-the-icons)
+  (use-package doom-modeline
+    :hook (after-init . doom-modeline-mode)
+    :config (setq doom-modeline-icon t)
+    :config (setq doom-modeline-enable-word-count t
+		  doom-modeline-continuous-word-count-modes
+		  '(markdown-mode gfm-mode org-mode LaTeX-mode latex-mode fundamental mode)))	; trigger icon display in the mode line.
+  (use-package all-the-icons-dired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+end_src
+
+Note that when the all-the-icons package in installed it is necessary
+to follow this up by running the command 'all-the-icons-install-fonts'
+as well. Until this is done the icons aren't available and you just
+get odd boxes where the icons should be. The answer to this issue was
+found on this Reddit post:
+
+https://www.reddit.com/r/emacs/comments/s7828m/alltheicons_icons_not_showing_properly/
+
+Also added the all-the-icons-dired functionality so that the icons
+appear in the dired mode. This requires triggering the icons using the
+dired hook in the above functions.
+
+**** Update on the Doom Modeline on 20th April 2022.
+
+I was looking to have word count displayed in the mode line. By
+default this isn't supported in the Doom modeline, but it is something
+that can be switched on using customise group. You can also define
+which modes use this function.
+
+Having switched on the word count, it is of course worth noting the
+values set in the customise group get written into the init.el
+file. I'm trying to keep this as pristine as possible, so I have
+migrated these values into the function above. This appears to be
+working. I'll monitor the messages to see if any issues arise.
+
+**** Provide Small Text Overview Using Minimap.
+
+One popular function used in editors is to provide a sidebar which
+shows the text of a proportion of the file in very small text. This
+can help a person working on the file to understand where they are in
+the body of the file. The minimap provides a visual indication on the
+file, but it is in text which is far too small to be able to read. The
+only feedback you get in realtime is that the line which the cursor is
+on is marked in a colour to stand out. Using Zenburn as the theme for
+Emacs gives an active line in Minimap with a blue background.
+
+I'm never really sure whether I like this. I think it is quite a nice
+idea if working on a larger screen (it is even possible that you could
+have a screen which was large enough to make the text
+readable). Switching it on and off seems a bit hit and miss, so I'll
+give it a chance, and maybe comment out the code at a later date.
+
+#+begin_src emacs-lisp
+    (use-package minimap
+      :config (setq minimap-major-modes '(tex-mode LaTeX-mode latex-mode prog-mode org-mode))
+      :config (minimap-mode 1))
+#+end_src
+
+**** Add Fancy Bullets to Org Mode Documents.
+
+Org Mode uses a simple markup language where headings of various
+levels are marked by using one or more asterisk. As the number of
+asterisks increase the whole thing begins to look a bit more
+clunky. The fix for this is to replace the header asterisks with a
+suitable fancy bullet.
+
+#+caption[prettyorgbullets]:Pretty Bullets in Org Mode.
+#+begin_src emacs-lisp
+  ;; Pretty bullets when using Org Mode.
+  (use-package org-bullets
+    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+end_src
+
+**** Display Useful Git Information in Dired Buffers.
+
+Dired mode, the Emacs file browser, is a sensible place to also
+display some useful information regarding Git status. The following
+function provides this behaviour.
+
+#+caption[diredgit]:Git information displayed in Dired.
+#+begin_src emacs-lisp
+    ;; Enable Git display in Dired
+    (use-package dired-git-info)
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map ")" 'dired-git-info-mode))
+#+end_src
+
+To access the Git information within dired where Git information is
+available then the above function includes a key map for toggling the
+dired information on and off.
+
+**** Write Room - Distraction Free Writing Environment.
 
 I'm interested, in general, in the idea of low distraction editing and
 writing interfaces. There are a few ways that this can be achieved in
@@ -1007,11 +1014,3 @@ have added a GPG key so that any changes to the code base are signed
 requires that when a commit is made I have to enter the passphrase for
 the GPG key. When in Writeroom mode the pop-up dialogue for this to
 happen is hidden behind the Emacs window
-
-*** Word Count mode - Notes.
-
-I have an entry in my old configuration file regarding the provision
-of word counting. This used a 'word count mode'. I haven't set this up
-this time as it is possible to have the word count displayed in the
-Doom mode line just by enabling it in the Doom modeline (see the Doom
-Modeline entry above).
