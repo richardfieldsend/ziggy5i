@@ -197,7 +197,6 @@ This function modifies the frame title text to read:
 
 Emacs - Buffer: active buffer : File file location : Mode mode
 
-
 ** Core Functionality That Affects All Of Emacs.
 
 This section is intended to provide behaviour that works everywhere
@@ -1014,3 +1013,30 @@ have added a GPG key so that any changes to the code base are signed
 requires that when a commit is made I have to enter the passphrase for
 the GPG key. When in Writeroom mode the pop-up dialogue for this to
 happen is hidden behind the Emacs window
+
+**** Focus Mode - Dim text progressively further from the active line.
+#+caption[focusmode]:Focus Mode - dimming text away from active line.
+#+begin_src emacs-lisp
+      ;; Focus mode
+      (use-package focus
+	:config (add-hook 'LaTeX-mode-hook 'focus-mode)
+	:config (add-hook 'latex-mode-hook 'focus-mode)
+	:config (add-hook 'org-mode-hook 'focus-mode)
+	:config (add-hook 'text-mode-hook 'focus-mode)
+	:config (add-to-list 'focus-mode-to-thing '(text-mode . paragraph))
+	:config (add-to-list 'focus-mode-to-thing '(LaTeX-mode . paragraph))
+	:config (add-to-list 'focus-mode-to-thing '(latex-mode . paragraph))
+	:config (add-to-list 'focus-mode-to-thing '(org-mode . paragraph)))
+#+end_src
+
+The function is a simple one where the active paragraph is in the
+current colour, but any paragraphs, above or below the one you are
+working in will be in a darker colour, though the text is still
+readily readable.
+
+Getting the package to work felt a bit hit and miss, but the code
+essentially switches on focus mode for each of the relevant modes, and
+the latter lines configure what the portion of text that is
+highlighted will be. In this case I have used paragraphs as I'm
+largely interested in writing text, but there are options for code
+blocks, etc.
