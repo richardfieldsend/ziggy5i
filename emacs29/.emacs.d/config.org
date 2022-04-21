@@ -1019,10 +1019,6 @@ happen is hidden behind the Emacs window
 #+begin_src emacs-lisp
       ;; Focus mode
       (use-package focus
-	:config (add-hook 'LaTeX-mode-hook 'focus-mode)
-	:config (add-hook 'latex-mode-hook 'focus-mode)
-	:config (add-hook 'org-mode-hook 'focus-mode)
-	:config (add-hook 'text-mode-hook 'focus-mode)
 	:config (add-to-list 'focus-mode-to-thing '(text-mode . paragraph))
 	:config (add-to-list 'focus-mode-to-thing '(LaTeX-mode . paragraph))
 	:config (add-to-list 'focus-mode-to-thing '(latex-mode . paragraph))
@@ -1040,3 +1036,13 @@ the latter lines configure what the portion of text that is
 highlighted will be. In this case I have used paragraphs as I'm
 largely interested in writing text, but there are options for code
 blocks, etc.
+
+Further testing shows that when Focus mode is working, triggered
+automatically as it is in the above configuration, then the pretty
+icons for Org headings don't work quite as expected. It looks as if
+the face settings for the org headings aren't hiding the leading
+asterisks. I tried disabling the hook for Org mode, but focus still
+launched, and the problem persists. Modifying the focus mode so that
+it needs to be called manually means that the issue with headings only
+occurs when I choose to switch on focus mode. I think this provides
+the best mix of behaviours.
