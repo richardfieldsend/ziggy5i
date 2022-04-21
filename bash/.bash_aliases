@@ -61,3 +61,5 @@ alias fehrandom='for a in {1..300} ; do feh -D 1 -d -z -r --bg-fill * ; done && 
 # aliases to run the various stow functions to refresh the stowed content
 alias stowemacs='stow -v -R -d ~/.dotfiles emacs29'
 
+# Fire up Webex - it isn't in an obvious place on the path!
+alias webex='/opt/Webex/bin/CiscoCollabHost %U'
