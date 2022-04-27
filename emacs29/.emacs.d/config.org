@@ -197,6 +197,23 @@ This function modifies the frame title text to read:
 
 Emacs - Buffer: active buffer : File file location : Mode mode
 
+*** Bracket and Parenthesis Highlighting.
+
+One function that can help whenever you are working on text which
+includes a lot of parentheses or brackets, is the momentary
+highlighting of the matching parenthesis within the document. It can
+help confirm whether you have the same number of opening brackets as
+closing brackets. This is less troublesome, having added the
+auto-insertion of closing brackets whenever a bracket is inserted, but
+it is all too easy to remove one of the brackets while editing, so
+this function can help in spotting the issue.
+
+#+caption[matchparenthesis]:Highlight the matching parentheses in a document.
+#+begin_src emacs-lisp
+  ;; Highlight matching parentheses, brackets or similar.
+  (show-paren-mode 1)
+#+end_src
+
 ** Core Functionality That Affects All Of Emacs.
 
 This section is intended to provide behaviour that works everywhere
@@ -232,6 +249,9 @@ the system to keep a restricted number of copies of the files.
 	auto-save-timeout 60	  ; Auto save timeout
 	auto-save-file-name-transforms '((".*" "~/.Backups/" t)))
 #+end_src
+
+These settings may need further examination as the number of backups
+for particular files sometimes appears to get very large.
 
 *** Returning To The Same Place When Returning To A File.
 
@@ -319,6 +339,10 @@ behind it. The 85/50 values can be tweaked as required.
 
 The first figure (currently 85) appears to be the opacity of the
 window, so decreasing it will make the page more transparent.
+
+The second value is the opacity when the window isn't active. The
+current value means that the wallpaper becomes quite clear through the
+Emacs window.
 
 *** White Space Trimming When Saving
 
@@ -1046,3 +1070,99 @@ launched, and the problem persists. Modifying the focus mode so that
 it needs to be called manually means that the issue with headings only
 occurs when I choose to switch on focus mode. I think this provides
 the best mix of behaviours.
+
+**** Olivetti Mode - Another Distraction Free Editor Setup.
+
+The homepage for this mode is here:
+
+https://github.com/rnkn/olivetti
+
+Olivetti mode is similar in functionality to Writeroom, though it
+looks like Writeroom may have more flexibility and a more hardcore
+attitude to distraction free editing.
+
+#+caption[olivettimode]:Olivetti Mode - Another distraction free editing mode.
+#+begin_src emacs-lisp
+  ;; Olivetti mode.
+(use-package olivetti)
+#+end_src
+
+I previously commented that, given that the Olivetti and Writeroom
+modes are intended to achieve similar functionality, it would be worth
+comparing them and seeing which suits my requirements, then removing
+the other. I may do this once I have done a lot of testing, but there
+isn't any real rush.
+
+**** TODO Compare Olivetti and Writeroom and possibly choose a preferred option.
+
+A quick initial test shows that the Olivetti mode interface is
+somewhat less austere than the Writeroom version. For instance, by
+default it still shows the modeline, whereas Writeroom hides this
+unless specifically activated.
+
+*** Packages For Writing Text
+
+**** Yasnippets - Templating To Save You Time And Typing
+
+The following is an attempt to get YaSnippets working. It isn't
+behaving as expected, so I have removed the code for the time
+being. I'll revisit it in the future.
+
+*** Packages For Programming Code
+
+**** Programming in C/C++
+
+The setup should support using C/C++ with some nice extras.
+
+#+caption[cprogramming]:C/C++ Programming Modes.
+#+begin_src emacs-lisp
+  ;; C/C++ Mode
+  (use-package cc-mode
+    :config (add-hook 'c-mode-hook
+		      '(lambda ()
+			 (c-set-style "linux")
+			 (c-toggle-auto-state)
+			 (c-toggle-hungry-state)))
+    :config (add-hook 'c++-mode-hook
+		      '(lambda ()
+			 (c-set-style "Stroustrup")
+			 (c-toggle-auto-state))))
+  ;; Completion pop-up
+  (use-package company
+    :config (progn
+	      (add-hook 'after-init-hook 'global-company-mode)
+	      (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+	      (setq company-idle-delay 0)))
+  ;; Flycheck - on the fly sanity checking your code.
+  (use-package flycheck)
+  (global-flycheck-mode)
+  ;; Irony mode
+  (use-package irony
+    :config ((add-hook 'c++-mode-hook 'irony-mode)
+	     :config (add-hook 'c-mode-hook 'irony-mode)
+	     :config (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
+  ;; Emacs Code Browser - ECB
+  (use-package ecb
+    :config (require 'ecb))
+#+end_src
+
+**** Programming in Python.
+Python is a popular beginners programming language.
+
+The configuration largely derives from the comments on this page:
+
+https://realpython.com/emacs-the-best-python-editor/
+
+#+caption[pythonprogramming]:Python Programming
+#+begin_src emacs-lisp
+    ;; Activate elpy (requires installing from apt)
+    (use-package elpy
+      :config (elpy-enable)
+      :config (setq python-shell-interpreter "python3" python-shell-interpreter-args "-i"))
+    ;; Activate flycheck
+  (use-package flycheck
+    :config (progn global-flycheck-mode)
+    :config (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+#+end_src
