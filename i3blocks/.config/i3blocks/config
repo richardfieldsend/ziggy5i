@@ -28,24 +28,11 @@ command=/usr/share/i3blocks/$BLOCK_NAME
 separator_block_width=20
 markup=none
 
-# Volume indicator
-#
-# The first parameter sets the step (and units to display)
-# The second parameter overrides the mixer selection
-# See the script for details.
-#[volume]
-#label=Volume
-#label=♪
-#instance=Master
-#instance=PCM
-#interval=once
-#signal=10
-
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label=Mem:
+label=Memory:
 separator=true
 interval=30
 
@@ -61,11 +48,11 @@ interval=30
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label=Root:
+label=/:
 instance=/
 interval=30
 [disk]
-label=Home:
+label=/home:
 #instance=/mnt/data
 interval=30
 
@@ -114,6 +101,14 @@ label=Batt:
 #label=⚡
 #instance=1
 interval=30
+
+# timewarrior status
+[timewarrior-status]
+label=Timewarrior:
+full_text=test full
+command=timewarrior-i3blocks
+interval=10
+format=json
 
 # Date Time
 #
