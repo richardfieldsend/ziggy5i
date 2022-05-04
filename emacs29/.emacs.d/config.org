@@ -779,42 +779,6 @@ always obvious.
 Emacs works best when you get to know all the key mapping, and
 which-key helps you learn what the keys are.
 
-**** Nov.el - Read ePub documents within Emacs.
-
-Another package recommended by the author of Mastering Emacs as a way
-to read his book within Emacs itself.
-
-#+caption[epubreader]:ePub Reading Within Emacs.
-#+begin_src emacs-lisp
-      ;; Read ePub in Emacs.
-      (use-package nov
-	:ensure t
-	:mode ("\\.epub\\'" . nov-mode)
-	)
-#+end_src
-
-When this was originally configured it didn't work. Checking the
-messages, it appeared that the problem was related to Emacs not being
-compiled with the libxml2 support. To fix the problem:
-
-- Install the libxml2 development library using sudo apt install
-  libxml2-dev
-
-- Rerun ./autogen.sh and then ./configure so that Emacs knows that
-  libxml2-dev is installed.
-
-- Run make -j 8 -o 3 && sudo make install
-
-Now opening epub files works as expected.
-
-**** Word Count mode - Notes.
-
-I have an entry in my old configuration file regarding the provision
-of word counting. This used a 'word count mode'. I haven't set this up
-this time as it is possible to have the word count displayed in the
-Doom mode line just by enabling it in the Doom modeline (see the Doom
-Modeline entry above).
-
 *** Packages Affecting Look And Feel
 **** Doom Themes - Look and Feel of Text
 I have been happily working with the default theme while creating the
@@ -998,6 +962,40 @@ To access the Git information within dired where Git information is
 available then the above function includes a key map for toggling the
 dired information on and off.
 
+**** Focus Mode - Dim text progressively further from the active line.
+#+caption[focusmode]:Focus Mode - dimming text away from active line.
+#+begin_src emacs-lisp
+      ;; Focus mode
+      (use-package focus
+	:config (add-to-list 'focus-mode-to-thing '(text-mode . paragraph))
+	:config (add-to-list 'focus-mode-to-thing '(LaTeX-mode . paragraph))
+	:config (add-to-list 'focus-mode-to-thing '(latex-mode . paragraph))
+	:config (add-to-list 'focus-mode-to-thing '(org-mode . paragraph)))
+#+end_src
+
+The function is a simple one where the active paragraph is in the
+current colour, but any paragraphs, above or below the one you are
+working in will be in a darker colour, though the text is still
+readily readable.
+
+Getting the package to work felt a bit hit and miss, but the code
+essentially switches on focus mode for each of the relevant modes, and
+the latter lines configure what the portion of text that is
+highlighted will be. In this case I have used paragraphs as I'm
+largely interested in writing text, but there are options for code
+blocks, etc.
+
+Further testing shows that when Focus mode is working, triggered
+automatically as it is in the above configuration, then the pretty
+icons for Org headings don't work quite as expected. It looks as if
+the face settings for the org headings aren't hiding the leading
+asterisks. I tried disabling the hook for Org mode, but focus still
+launched, and the problem persists. Modifying the focus mode so that
+it needs to be called manually means that the issue with headings only
+occurs when I choose to switch on focus mode. I think this provides
+the best mix of behaviours.
+
+*** Packages For Writing Text
 **** Write Room - Distraction Free Writing Environment.
 
 I'm interested, in general, in the idea of low distraction editing and
@@ -1038,39 +1036,6 @@ requires that when a commit is made I have to enter the passphrase for
 the GPG key. When in Writeroom mode the pop-up dialogue for this to
 happen is hidden behind the Emacs window
 
-**** Focus Mode - Dim text progressively further from the active line.
-#+caption[focusmode]:Focus Mode - dimming text away from active line.
-#+begin_src emacs-lisp
-      ;; Focus mode
-      (use-package focus
-	:config (add-to-list 'focus-mode-to-thing '(text-mode . paragraph))
-	:config (add-to-list 'focus-mode-to-thing '(LaTeX-mode . paragraph))
-	:config (add-to-list 'focus-mode-to-thing '(latex-mode . paragraph))
-	:config (add-to-list 'focus-mode-to-thing '(org-mode . paragraph)))
-#+end_src
-
-The function is a simple one where the active paragraph is in the
-current colour, but any paragraphs, above or below the one you are
-working in will be in a darker colour, though the text is still
-readily readable.
-
-Getting the package to work felt a bit hit and miss, but the code
-essentially switches on focus mode for each of the relevant modes, and
-the latter lines configure what the portion of text that is
-highlighted will be. In this case I have used paragraphs as I'm
-largely interested in writing text, but there are options for code
-blocks, etc.
-
-Further testing shows that when Focus mode is working, triggered
-automatically as it is in the above configuration, then the pretty
-icons for Org headings don't work quite as expected. It looks as if
-the face settings for the org headings aren't hiding the leading
-asterisks. I tried disabling the hook for Org mode, but focus still
-launched, and the problem persists. Modifying the focus mode so that
-it needs to be called manually means that the issue with headings only
-occurs when I choose to switch on focus mode. I think this provides
-the best mix of behaviours.
-
 **** Olivetti Mode - Another Distraction Free Editor Setup.
 
 The homepage for this mode is here:
@@ -1093,6 +1058,12 @@ comparing them and seeing which suits my requirements, then removing
 the other. I may do this once I have done a lot of testing, but there
 isn't any real rush.
 
+**** Yasnippets - Templating To Save You Time And Typing
+
+The following is an attempt to get YaSnippets working. It isn't
+behaving as expected, so I have removed the code for the time
+being. I'll revisit it in the future.
+
 **** TODO Compare Olivetti and Writeroom and possibly choose a preferred option.
 
 A quick initial test shows that the Olivetti mode interface is
@@ -1100,13 +1071,171 @@ somewhat less austere than the Writeroom version. For instance, by
 default it still shows the modeline, whereas Writeroom hides this
 unless specifically activated.
 
-*** Packages For Writing Text
+**** Word Count mode - Notes.
 
-**** Yasnippets - Templating To Save You Time And Typing
+I have an entry in my old configuration file regarding the provision
+of word counting. This used a 'word count mode'. I haven't set this up
+this time as it is possible to have the word count displayed in the
+Doom mode line just by enabling it in the Doom modeline (see the Doom
+Modeline entry above).
 
-The following is an attempt to get YaSnippets working. It isn't
-behaving as expected, so I have removed the code for the time
-being. I'll revisit it in the future.
+**** Nov.el - Read ePub documents within Emacs.
+
+Another package recommended by the author of Mastering Emacs as a way
+to read his book within Emacs itself.
+
+#+caption[epubreader]:ePub Reading Within Emacs.
+#+begin_src emacs-lisp
+      ;; Read ePub in Emacs.
+      (use-package nov
+	:ensure t
+	:mode ("\\.epub\\'" . nov-mode)
+	)
+#+end_src
+
+When this was originally configured it didn't work. Checking the
+messages, it appeared that the problem was related to Emacs not being
+compiled with the libxml2 support. To fix the problem:
+
+- Install the libxml2 development library using sudo apt install
+  libxml2-dev
+
+- Rerun ./autogen.sh and then ./configure so that Emacs knows that
+  libxml2-dev is installed.
+
+- Run make -j 8 -o 3 && sudo make install
+
+Now opening epub files works as expected.
+
+**** AuCTeX Mode - Emacs Support For LaTeX.
+
+When I first installed Linux about 25 years ago there wasn't a good
+word processor. The forerunner of LibreOffice was available but it was
+unstable and the fonts were limited and ugly. Investigating at the
+time, the suggestion was to use LaTeX, a text markup language
+originally created to help in the creation of academic papers.
+
+LaTeX is a great piece of software, but it does require some complex
+typing, so AuCTeX helps with this process in a number of ways. It also
+plugs into some very cool functionality that supports bibliographies,
+internal references, indexes and tables of content.
+
+If you are writing pretty simple LaTeX documents then an approach
+which is somewhat easier for day to day use is to use the OrgMode
+markup language and then export the document as LaTeX, optionally with
+processing into a PDF file automatically.
+
+In order to support the full range of things that LaTeX is capable of,
+the TeXLive installation can include a range of subsections. I have
+chosen 'texlive-full' in apt which pulls in a broad range of document
+types and styles.
+
+Notes on usage:
+
+Most useful shortcuts are:
+
+C-c C-e: Insert environment. When a document is originally created
+this sets up the document type
+
+C-C C-s: Insert section. Section types are appropriate to the document
+type (book has chapters, reports don't etc). RefTeX provides extra
+functionality to suggest suitable label which can be used to interlink
+sections in the document.
+
+C-c C-m: Insert a LaTeX macro (quick search of the macros available
+using Helm).
+
+#+caption[auctex]:Setup AuCTeX and Related Functions.
+#+begin_src emacs-lisp
+  ;; Add RefTeX
+  (use-package reftex
+    :ensure reftex)
+  ;; Add tex package, ensure Auctex and then enable all the functions.
+  (use-package tex
+    :ensure auctex
+    :config (setq TeX-auto-save t)
+    :config (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+    :config (add-hook 'latex-mode-hook 'turn-on-reftex)
+    :config (setq reftex-plug-into-AUCTeX t)
+    :config (setq-default TeX-master nil)
+    :config (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+    :config (add-hook 'latex-mode-hook 'LaTeX-math-mode)
+    :config (setq TeX-fold-mode 1)
+    :config (setq TeX-parse-self t)
+    :config (setq TeX-electric-escape t)
+    :config (setq add-hook 'LaTeX-mode-hook 'outline-minor-mode)
+    :config (setq add-hook 'latex-mode-hook 'outline-minor-mode))
+#+end_src
+
+This setup supports multi-part documents (a useful way of managing
+longer documents).
+
+One useful thing to consider when writing documents for real is the
+use of the LaTeX Make package. This allows you to set up a session
+where the file you are working on is processed through the LaTeX
+system each time it is saved, and the displayed version of the LaTeX
+output is updated. This gives something approximating to a 'What You
+See Is What You Get' function without the compromise of something like
+Word. To use this function from the command line run: latexmk -pvc
+docname.tex
+
+The script will run LaTeX and any related functions required, until a
+suitable dvi file is available. This is then displayed in the
+appropriate program. The output will be refreshed by the script every
+time the document is saved, so the processors are only run when the
+document requires it. Note that the dvi display doesn't automatically
+update, but updates when you click on the window. This may be overkill
+for simple documents, so an alternative, useful if you want to check
+where the headings in a document are, and what the maths text looks
+like is to use the LaTeX preview which can be triggered by C-c C-p
+C-b. Emacs will confirm that you are happy for the preamble to the
+document to be cached, and will then do a partial processing on the
+document, highlighting headings in larger text with the sections
+numbered.
+
+**** LaTeX Bibliographies Managed using eBib.
+
+LaTeX provides bibliographic support using BibTeX. This relies on
+information about books, papers and the like placed in a plain text
+database which has quite a strict data format. Emacs provides support
+to manage the database by hiding a lot of the complexity of the
+format. It does this using eBib.
+
+I have a bibliographies folder which contains these databases. There
+are separate databases for each of the relevant book types. In this
+case, and at this time (2022) these are the book types:
+
+- Kindle books
+
+- Humble Bundle books
+
+- Paperbacks. The majority of books in the house are paperbacks.
+
+- Hardbacks.
+
+- Audiobooks.
+
+eBib provides support for creating multiple bibliographies. It also
+supports the use of a keyword list for classification of documents,
+and the maintenance of a to read list in Org Mode.
+
+#+caption[eBibConfig]:eBib installation and configuration.
+#+begin_src emacs-lisp
+  ;; Installation and setup of eBib.
+  (use-package ebib
+    :config (global-set-key "\C-cb" 'ebib)
+    :config (setq ebib-bib-search-dirs '("~/bibliographies/"))
+    :config (setq ebib-file-search-dirs '(~/books))
+    :config (setq ebib-default-entry-type 'Book)
+    :config (setq ebib-preload-bib-files
+		  '("humble.bib" "kindle.bib" "paperbacks.bib" "hardbacks.bib" "audiobooks.bib"))
+    :config (setq ebib-keywords-field-keep-sorted t)
+    :config (setq ebib-keywords-file "~/bibliographies/keywordslist.txt")
+    :config (setq ebib-keywords-file-save-on-exit t)
+    :config (setq ebib-keywords-use-only-file t)
+    :config (setq ebib-reading-list-file "~/bibliographies/ToReadList.org")
+    :config (setq ebib-use-timestamp t))
+#+end_src
 
 *** Packages For Programming Code
 
@@ -1166,3 +1295,21 @@ https://realpython.com/emacs-the-best-python-editor/
     (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 #+end_src
+
+**** Programming in Lisp (using Slime).
+
+As well as Clojure, I have been reading about Lisp using Common Lisp
+(clisp). The following configures Slime when using Lisp.
+
+#+caption[LispSlime]:Lisp editing with Slime.
+#+begin_src emacs-lisp
+    ;; Lisp editing using Slime.
+    (use-package slime
+      :mode (("\\.lisp'" . slime-mode))
+      :config (setq inferior-lisp-program "/usr/bin/clisp"))
+#+end_src
+
+Some web resources refer to the SBCL as a faster common lisp, but the
+book I'm using (Land of Lisp) is predicated on using clisp, so I'll
+stick with this for the time being. To switch between the two within
+Emacs I can modify the line above and point to the alternate clisp.
