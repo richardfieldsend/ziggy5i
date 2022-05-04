@@ -130,5 +130,10 @@ export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -c -a emacs"
 
+# Configure a location for BibTeX data files as outlined in this
+# webpage:
+# https://tex.stackexchange.com/questions/120427/where-should-i-put-bibfile-bib-to-use-it-directly-in-bibliographybibfile
+export BIBINPUTS=".;/home/rf343/bibliographies/;$TEXMF/bibtex/bib"
+
 # Load neofetch when the terminal loads.
 neofetch
