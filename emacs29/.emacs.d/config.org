@@ -1179,8 +1179,8 @@ using Helm).
     :config (setq TeX-fold-mode 1)
     :config (setq TeX-parse-self t)
     :config (setq TeX-electric-escape t)
-    :config (setq add-hook 'LaTeX-mode-hook 'outline-minor-mode)
-    :config (setq add-hook 'latex-mode-hook 'outline-minor-mode))
+    :config (add-hook 'LaTeX-mode-hook 'outline-minor-mode)
+    :config (add-hook 'latex-mode-hook 'outline-minor-mode))
 #+end_src
 
 This setup supports multi-part documents (a useful way of managing
@@ -1283,12 +1283,13 @@ The setup should support using C/C++ with some nice extras.
   (global-flycheck-mode)
   ;; Irony mode
   (use-package irony
-    :config ((add-hook 'c++-mode-hook 'irony-mode)
-	     :config (add-hook 'c-mode-hook 'irony-mode)
-	     :config (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
+    :config (add-hook 'c++-mode-hook 'irony-mode)
+    :config (add-hook 'c-mode-hook 'irony-mode)
+    :config (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
   ;; Emacs Code Browser - ECB
   (use-package ecb
-    :config (require 'ecb))
+    :config (require 'ecb)
+    :config (require 'ecb-autoloads))
 #+end_src
 
 **** Programming in Python.
